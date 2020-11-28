@@ -2,30 +2,35 @@ package com.capgemini.employeepayrollapp.services;
 
 import java.util.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.capgemini.employeepayrollapp.dto.EmployeePayrollDTO;
 import com.capgemini.employeepayrollapp.model.EmployeePayrollData;
+import com.capgemini.employeepayrollapp.repository.EmployeeRepository;
 
 @Service
 public class EmployeePayrollService implements IEmployeePayrollService{
 	private List<EmployeePayrollData> employeePayrollList=new ArrayList<>();
+	@Autowired
+	private EmployeeRepository employeeRepository;
 
 	@Override
 	public List<EmployeePayrollData> getEmployeePayrollData() {
-		return employeePayrollList;
+		return employeeRepository.getAllEmployees();
 	}
 
 	@Override
 	public EmployeePayrollData getEmployeePayrollDataById(int empId) {
-		return employeePayrollList.get(empId-1);
+		return employeeRepository.findEmployeeById(empId);
 	}
 
 	@Override
 	public EmployeePayrollData createEmployeePayrollData(EmployeePayrollDTO empPayrollDTO) {
 		EmployeePayrollData empData =null;
-		empData =new EmployeePayrollData(employeePayrollList.size()+1,empPayrollDTO);
+		empData =new EmployeePayrollData(empPayrollDTO);
 		employeePayrollList.add(empData);
+		employeeRepository.save(empData);
 		return empData;
 	}
 
@@ -34,14 +39,13 @@ public class EmployeePayrollService implements IEmployeePayrollService{
 		
 		empData.setName(empPayrollDTO.name);
 		empData.setSalary(empPayrollDTO.salary);
-		employeePayrollList.set(empId-1, empData);
+		employeeRepository.save(empData);
 		return empData;
 	}
 
 	@Override
 	public void deleteEmployeePayrollData(int empId) {
-		employeePayrollList.remove(empId-1);
+		employeeRepository.deleteById(empId);
 	}
-	
 	
 }

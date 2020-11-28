@@ -1,8 +1,16 @@
 package com.capgemini.employeepayrollapp.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import com.capgemini.employeepayrollapp.dto.EmployeePayrollDTO;
 
+@Entity
 public class EmployeePayrollData {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int employeeId;
 	private String name;
 	private long salary;
@@ -12,6 +20,11 @@ public class EmployeePayrollData {
 	}
 	public EmployeePayrollData(int empId,EmployeePayrollDTO empPayrollDTO) {
 		this.employeeId=empId;
+		this.name=empPayrollDTO.name;
+		this.salary=empPayrollDTO.salary;
+	}
+	
+	public EmployeePayrollData(EmployeePayrollDTO empPayrollDTO) {
 		this.name=empPayrollDTO.name;
 		this.salary=empPayrollDTO.salary;
 	}
