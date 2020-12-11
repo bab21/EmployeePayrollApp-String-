@@ -10,19 +10,27 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.capgemini.employeepayrollapp.dto.EmployeePayrollDTO;
 import com.capgemini.employeepayrollapp.dto.ResponseDTO;
 import com.capgemini.employeepayrollapp.model.EmployeePayrollData;
 import com.capgemini.employeepayrollapp.repository.EmployeeRepository;
+import com.capgemini.employeepayrollapp.services.EmailService;
 import com.capgemini.employeepayrollapp.services.IEmployeePayrollService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.capgemini.employeepayrollapp.exceptions.CustomException;
 import java.util.*;
 @RestController
 @RequestMapping("/employeepayrollservice")
 public class EmployeePayrollController {
+	private static final Logger logger = LoggerFactory.getLogger(EmployeePayrollController.class);
+	
 	@Autowired
 	private IEmployeePayrollService employeePayrollService;
-	
+	@Autowired
+	private EmailService emailService;
 	
 	
 	@RequestMapping(value= {"","/","/get"})
@@ -35,6 +43,11 @@ public class EmployeePayrollController {
 	
 	@GetMapping("/get/{empId}")
 	public ResponseEntity<ResponseDTO> getEmployeePayrollData(@PathVariable("empId") int empId){
+		logger.info("Inside Controller");
+		if(empId==0) {
+			logger.info("This Id does not exit");
+			throw new CustomException("This Id does not exits");
+		}
 		EmployeePayrollData empData =null;
 		empData =employeePayrollService.getEmployeePayrollDataById(empId);
 		ResponseDTO respDTO =new ResponseDTO("Get Call for ID Successfull",empData);
@@ -46,6 +59,7 @@ public class EmployeePayrollController {
 							@RequestBody EmployeePayrollDTO empPayrollDTO){
 		EmployeePayrollData empData=null;
 		empData =employeePayrollService.createEmployeePayrollData(empPayrollDTO);
+		emailService.sendSimpleMessage("queen212811@gmail.com", "checking", "Hello there");
 		ResponseDTO respDTO = new ResponseDTO("Created Employee Payroll Data Successfully",empData);
 		return new ResponseEntity<ResponseDTO>(respDTO,HttpStatus.OK);
 		
@@ -67,5 +81,10 @@ public class EmployeePayrollController {
 		return new ResponseEntity<ResponseDTO>(respDTO,HttpStatus.OK);
 	}
 	
+	@ExceptionHandler({CustomException.class})
+    public String handleException(CustomException e) {
+        System.out.println("Exception occurred");
+        return "Error";
+    }
 	
 }
