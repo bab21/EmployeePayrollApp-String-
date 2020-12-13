@@ -14,14 +14,18 @@ import org.springframework.web.bind.annotation.*;
 
 import com.capgemini.employeepayrollapp.dto.EmployeePayrollDTO;
 import com.capgemini.employeepayrollapp.dto.ResponseDTO;
+import com.capgemini.employeepayrollapp.model.Department;
 import com.capgemini.employeepayrollapp.model.EmployeePayrollData;
 import com.capgemini.employeepayrollapp.repository.EmployeeRepository;
 import com.capgemini.employeepayrollapp.services.EmailService;
+import com.capgemini.employeepayrollapp.services.IDepartmentService;
 import com.capgemini.employeepayrollapp.services.IEmployeePayrollService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.capgemini.employeepayrollapp.exceptions.CustomException;
 import java.util.*;
+
+import javax.validation.Valid;
 @RestController
 @RequestMapping("/employeepayrollservice")
 public class EmployeePayrollController {
@@ -29,6 +33,8 @@ public class EmployeePayrollController {
 	
 	@Autowired
 	private IEmployeePayrollService employeePayrollService;
+	@Autowired
+	private IDepartmentService departmentService;
 	@Autowired
 	private EmailService emailService;
 	
@@ -41,6 +47,14 @@ public class EmployeePayrollController {
 		return new ResponseEntity<ResponseDTO>(respDTO,HttpStatus.OK);
 	}
 	
+	@RequestMapping(value= {"/department"})
+	public ResponseEntity<ResponseDTO> getAllDepartments(){
+		List<Department> deptList =null;
+		deptList = departmentService.getAllDepartment();
+		ResponseDTO respDTO =new ResponseDTO("Get Call for ID Successfull",deptList);
+		return new ResponseEntity<ResponseDTO>(respDTO,HttpStatus.OK);
+		
+	}
 	@GetMapping("/get/{empId}")
 	public ResponseEntity<ResponseDTO> getEmployeePayrollData(@PathVariable("empId") int empId){
 		logger.info("Inside Controller");
@@ -56,7 +70,7 @@ public class EmployeePayrollController {
 	
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDTO> addEmployeePayrollData(
-							@RequestBody EmployeePayrollDTO empPayrollDTO){
+							 @RequestBody EmployeePayrollDTO empPayrollDTO){
 		EmployeePayrollData empData=null;
 		empData =employeePayrollService.createEmployeePayrollData(empPayrollDTO);
 		emailService.sendSimpleMessage("queen212811@gmail.com", "checking", "Hello there");
