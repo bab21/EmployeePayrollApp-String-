@@ -70,7 +70,7 @@ public class EmployeePayrollController {
 	
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDTO> addEmployeePayrollData(
-							 @RequestBody EmployeePayrollDTO empPayrollDTO){
+							 @Valid @RequestBody EmployeePayrollDTO empPayrollDTO){
 		EmployeePayrollData empData=null;
 		empData =employeePayrollService.createEmployeePayrollData(empPayrollDTO);
 		emailService.sendSimpleMessage("queen212811@gmail.com", "checking", "Hello there");
@@ -80,7 +80,7 @@ public class EmployeePayrollController {
 	}
 	@PutMapping("/update/{empId}")
 	public ResponseEntity<ResponseDTO> updateEmployeePayrollData(@PathVariable("empId") int empId,
-							@RequestBody EmployeePayrollDTO empPayrollDTO){
+							@Valid @RequestBody EmployeePayrollDTO empPayrollDTO){
 		EmployeePayrollData empData=null;
 		empData =employeePayrollService.updateEmployeePayrollData(empId,empPayrollDTO);
 		ResponseDTO respDTO = new ResponseDTO("Updated Employee Payroll Data Successfully",empData);

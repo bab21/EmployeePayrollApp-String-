@@ -31,8 +31,6 @@ public class EmployeePayrollData {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="employee_id")
 	private int employeeId;
-	
-//	@Pattern(regexp="^[A-Z]{1}[a-z]{2,}[\\s][A-Z]{1}[a-z]{2,}$", message="Name is invalid")
 	private String name;
 	private long salary;
 	private char gender;
@@ -131,21 +129,7 @@ public class EmployeePayrollData {
 //		return this.email;
 //	}
 	
-//	public String[] getDepartments() {
-//		String array[] = new String[departments.size()];              
-//		for(int j =0;j<departments.size();j++){
-//		  array[j] = departments.get(j).getDeptName();
-//		}
-//		return array;
-//	}
-//
-//	public void setDepartments(String[] departments) {
-//		List<Department> departmentList = new ArrayList<Department>();
-//		for(String department : departments) {
-//			departmentList.add(new Department(department));
-//		}
-//		this.departments = departmentList;
-//	}
+
 	@Override
 	public String toString() {
 		return "id:"+this.employeeId+"Name: "+this.name+"Salary: "+this.salary+"Start Date: "+this.startDate;
