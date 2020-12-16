@@ -13,7 +13,6 @@ import com.capgemini.employeepayrollapp.dto.ResponseDTO;
 
 @ControllerAdvice
 public class EmployeePayrollExceptionHandler {
-	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ResponseDTO> handleMethodArgumentNotValidException(
 			MethodArgumentNotValidException exception){
@@ -22,11 +21,8 @@ public class EmployeePayrollExceptionHandler {
 								.map(objErr -> objErr.getDefaultMessage())
 								.collect(Collectors.toList());
 		ResponseDTO responseDTO=new ResponseDTO("Exception while REST Request",errMsg);
-		return new ResponseEntity<ResponseDTO>(responseDTO,HttpStatus.BAD_REQUEST);
-		
-		
+		return new ResponseEntity<ResponseDTO>(responseDTO,HttpStatus.BAD_REQUEST);	
 	}
-	
 	@ExceptionHandler(EmployeePayrollException.class)
 	public ResponseEntity<ResponseDTO> handleEmployeePayrollException(
 							EmployeePayrollException exception){

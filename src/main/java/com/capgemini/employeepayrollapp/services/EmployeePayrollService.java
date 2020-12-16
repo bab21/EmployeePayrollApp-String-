@@ -27,8 +27,9 @@ public class EmployeePayrollService implements IEmployeePayrollService{
 
 	@Override
 	public EmployeePayrollData createEmployeePayrollData(EmployeePayrollDTO empPayrollDTO) {
-		EmployeePayrollData empData =null;
-		empData =new EmployeePayrollData(empPayrollDTO);
+		EmployeePayrollData empData =new EmployeePayrollData();
+		empData.updateEmployeePayrollData(empPayrollDTO);
+//		empData =new EmployeePayrollData(empPayrollDTO);
 		employeePayrollList.add(empData);
 		System.out.println("Employee object created "+empData);
 		employeeRepository.save(empData);
