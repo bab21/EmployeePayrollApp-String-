@@ -27,6 +27,7 @@ import java.util.*;
 
 import javax.validation.Valid;
 
+@CrossOrigin( origins="*",allowedHeaders = "*")
 @RestController
 @RequestMapping("/employeepayrollservice")
 public class EmployeePayrollController {

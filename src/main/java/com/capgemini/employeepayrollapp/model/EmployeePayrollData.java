@@ -1,6 +1,7 @@
 package com.capgemini.employeepayrollapp.model;
 
 import javax.persistence.CascadeType;
+
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -15,6 +16,7 @@ import javax.validation.constraints.Pattern;
 import javax.persistence.JoinColumn;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -41,7 +43,8 @@ public class EmployeePayrollData {
 	@Column(name="profile_pic")
 	private String profilePic;
 	@Column(name="start_date")
-	@JsonFormat(pattern="yyyy-MM-dd")
+//	@DateTimeFormat(iso = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate startDate;
 	private String notes;
 	@ElementCollection

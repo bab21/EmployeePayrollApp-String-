@@ -3,6 +3,8 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.validation.constraints.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.ToString;
 
 public @ToString class EmployeePayrollDTO {
@@ -11,6 +13,7 @@ public @ToString class EmployeePayrollDTO {
 	@Min(value =500,message ="Min wage should be 500")
 	public long salary;
 	public char gender;
+	@JsonFormat(pattern = "dd-MMM-yyyy")
 	public LocalDate startDate;
 	public String notes;
 	public String profilePic;
